@@ -1,0 +1,26 @@
+service: rekognition-function
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  stage: dev
+  region: eu-west-1
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "rekognition:*"
+      Resource: "*"
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:*"
+      Resource: "*"
+
+functions:
+  processImage:
+    handler: handler.processImage
+    memorySize: 128
+    events:
+      - http:
+          path: process-image
+          method: post
